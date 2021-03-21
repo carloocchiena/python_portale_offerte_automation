@@ -10,9 +10,10 @@ browser = webdriver.Chrome("C:\YOURPATH\chromedriver.exe")
 user_cap = "20154"
 power = 2700
 gas = 1000
-url = "https://www.ilportaleofferte.it/portaleOfferte/it/confronto-tariffe-prezzi-luce-gas.page?tipoOfferta=&code-istat=&cap-comune="
 contract_type = "power" 
 #use: "gas" "dual" or "power"
+
+url = "https://www.ilportaleofferte.it/portaleOfferte/it/confronto-tariffe-prezzi-luce-gas.page?tipoOfferta=&code-istat=&cap-comune="
 
 #get into the website
 browser.get(url)
