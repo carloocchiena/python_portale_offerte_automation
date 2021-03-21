@@ -26,7 +26,6 @@ elif contract_type == "gas":
 else:
     power_only = browser.find_element_by_id("energiaElettrica").click()
 
-
 cap = browser.find_element_by_id("capComune")
 cap.send_keys(user_cap)
 time.sleep(0.5)
@@ -38,7 +37,6 @@ casa = browser.find_element_by_id("casa").click()
 
 if contract_type == "dual" or contract_type == "power":
     residente = browser.find_element_by_id("residenteSI").click()
-
 else:
     pass 
 
@@ -59,7 +57,6 @@ if contract_type == "dual" or contract_type == "power":
         avanti = browser.find_element_by_link_text("Avanti").click()
     except:
         confronta = browser.find_element_by_name("confronta").click()
-
 else:
     pass
 
@@ -74,9 +71,9 @@ if contract_type == "dual" or contract_type == "gas":
 
     smc = browser.find_element_by_id("ConsumoAnnuoGas")
     smc.send_keys(gas)
-
 else:
     pass 
+
 try:
     avanti = browser.find_element_by_link_text("Avanti").click()
 except:
