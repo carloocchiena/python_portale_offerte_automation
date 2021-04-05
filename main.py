@@ -18,7 +18,6 @@ contract_type = "dual"
 #use: "gas" "dual" or "power"
 
 #global
-rank = 1
 today = date.today()
 
 url = "https://www.ilportaleofferte.it/portaleOfferte/it/confronto-tariffe-prezzi-luce-gas.page?tipoOfferta=&code-istat=&cap-comune="
@@ -95,8 +94,11 @@ new_url = browser.page_source
 soup = BS4(new_url, "lxml")
 competitors = soup.find_all("p", {"class": "nome_venditore"})
 
-for comp in competitors:
-    print (str(today)+ " " + str(rank)+" :"+comp.text)
-    rank += 1
-    
-rank = 1 #reset the counter in case of multiple runs
+#printing out the results: 
+
+new_url = browser.page_source
+soup = BS4(new_url, "lxml")
+competitors = soup.find_all("p", {"class": "nome_venditore"})
+
+for rank, comp in enumerate(competitors):
+    print (str(today)+ " " + f"{rank + 1}:" + comp.text)
