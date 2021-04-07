@@ -63,7 +63,7 @@ if contract_type == "dual" or contract_type == "power":
     
     try:
         avanti = browser.find_element_by_link_text("Avanti").click()
-    except:
+    except Exception as e:
         confronta = browser.find_element_by_name("confronta").click()
 else:
     pass
@@ -84,7 +84,7 @@ else:
 
 try:
     avanti = browser.find_element_by_link_text("Avanti").click()
-except:
+except Exception as e:
     confronta = browser.find_element_by_name("confronta").click()
     
     
