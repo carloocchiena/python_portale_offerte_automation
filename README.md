@@ -3,4 +3,9 @@ An automation to scrape data into the Portale Offerte website and get an updated
 
 please note you have to download an updated version of chromedrivers from  https://chromedriver.chromium.org/downloads
 
+Script has been tested on early 2021; I don't plan to implement it further, it may needs some error handling logic at least.
+
+If interested in it, I'll be happy to jump back on the task.
+
 Please be so kind to star or fork if you want to use it for personal use :)
+
