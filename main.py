@@ -1,31 +1,31 @@
-from bs4 import BeautifulSoup as BS4   #for handling xml page
-from datetime import date #today's date
-import lxml #to decode xml page with bs4
-from selenium import webdriver   #to handle chromium webdriver
-from selenium.webdriver.common.keys import Keys #to have keys name
-from selenium.webdriver.support.ui import Select #to select from dropdown list
-import time #to pause the scrolling 
+from bs4 import BeautifulSoup as BS4             # for handling xml page
+from datetime import date                        # today's date
+import lxml                                      # to decode xml page with bs4
+from selenium import webdriver                   # to handle chromium webdriver
+from selenium.webdriver.common.keys import Keys  # to have keys name
+from selenium.webdriver.support.ui import Select # to select from dropdown list
+import time                                      # to pause the scrolling 
 
-#load the chrome webdriver (get the right one from https://chromedriver.chromium.org/downloads)
+# load the chrome webdriver (get the right one from https://chromedriver.chromium.org/downloads)
 browser = webdriver.Chrome("C:\YOURPATH\chromedriver.exe")
 
-#user data (enter here the data you need to modify)
+# user data (enter here the data you need to modify)
 user_cap = "20154"
 power = 2700
 gas = 1000
 url = "https://www.ilportaleofferte.it/portaleOfferte/it/confronto-tariffe-prezzi-luce-gas.page?tipoOfferta=&code-istat=&cap-comune="
 contract_type = "dual" 
-#use: "gas" "dual" or "power"
+# use: "gas" "dual" or "power"
 
-#global
+# global
 today = date.today()
 
 url = "https://www.ilportaleofferte.it/portaleOfferte/it/confronto-tariffe-prezzi-luce-gas.page?tipoOfferta=&code-istat=&cap-comune="
 
-#get into the website
+# get into the website
 browser.get(url)
 
-#page1
+# page1
 
 if contract_type == "dual": 
     dual = browser.find_element_by_id("dual").click()
@@ -50,7 +50,7 @@ else:
 
 avanti = browser.find_element_by_class_name("btn").click()
 
-#page2
+# page2
 
 if contract_type == "dual" or contract_type == "power":
     potenza =  Select(browser.find_element_by_id("scegliPotenza"))
@@ -68,7 +68,7 @@ if contract_type == "dual" or contract_type == "power":
 else:
     pass
 
-#page3
+# page3
 
 if contract_type == "dual" or contract_type == "gas":
     cottura = browser.find_element_by_xpath('//label[@for="cottura"]').click()
@@ -88,13 +88,13 @@ except Exception as e:
     confronta = browser.find_element_by_name("confronta").click()
     
     
-#printing out the results: 
+# printing out the results: 
 
 new_url = browser.page_source
 soup = BS4(new_url, "lxml")
 competitors = soup.find_all("p", {"class": "nome_venditore"})
 
-#printing out the results: 
+# printing out the results: 
 
 new_url = browser.page_source
 soup = BS4(new_url, "lxml")
