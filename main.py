@@ -1,13 +1,17 @@
-from bs4 import BeautifulSoup as BS4             # for handling xml page
-from datetime import date                        # today's date
-import lxml                                      # to decode xml page with bs4
-from selenium import webdriver                   # to handle chromium webdriver
-from selenium.webdriver.common.keys import Keys  # to have keys name
-from selenium.webdriver.support.ui import Select # to select from dropdown list
-import time                                      # to pause the scrolling 
+from datetime import date                                  # today's date
+import time                                                # to pause the scrolling 
 
-# load the chrome webdriver (get the right one from https://chromedriver.chromium.org/downloads)
-browser = webdriver.Chrome("C:\YOURPATH\chromedriver.exe")
+from bs4 import BeautifulSoup as BS4                       # for handling xml page
+import lxml                                                # to decode xml page with bs4
+
+from selenium import webdriver                             # to handle chromium webdriver
+from selenium.webdriver.common.keys import Keys            # to have keys name
+from selenium.webdriver.support.ui import Select           # to select from dropdown list
+from selenium.webdriver.chrome.service import Service      # to automate the download of the webdriver
+from webdriver_manager.chrome import ChromeDriverManager   # to automate the download of the webdriver
+
+# load the chrome webdriver 
+browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
 # user data (enter here the data you need to modify)
 user_cap = "20154"
