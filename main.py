@@ -1,108 +1,105 @@
-from datetime import date                                  # today's date
-import time                                                # to pause the scrolling 
+from datetime import date
+import time 
 
-from bs4 import BeautifulSoup as BS4                       # for handling xml page
-import lxml                                                # to decode xml page with bs4
+from bs4 import BeautifulSoup as BS4  
+import lxml 
 
-from selenium import webdriver                             # to handle chromium webdriver
-from selenium.webdriver.common.keys import Keys            # to have keys name
-from selenium.webdriver.support.ui import Select           # to select from dropdown list
-from selenium.webdriver.chrome.service import Service      # to automate the download of the webdriver
-from webdriver_manager.chrome import ChromeDriverManager   # to automate the download of the webdriver
+from selenium import webdriver   
+from selenium.webdriver.common.keys import Keys  
+from selenium.webdriver.common.by import By               
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
-# load the chrome webdriver 
-browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
 # user data (enter here the data you need to modify)
+today = date.today()
 user_cap = "20154"
 power = 2700
 gas = 1000
 url = "https://www.ilportaleofferte.it/portaleOfferte/it/confronto-tariffe-prezzi-luce-gas.page?tipoOfferta=&code-istat=&cap-comune="
-contract_type = "dual" 
-# use: "gas" "dual" or "power"
-
-# global
-today = date.today()
-
-url = "https://www.ilportaleofferte.it/portaleOfferte/it/confronto-tariffe-prezzi-luce-gas.page?tipoOfferta=&code-istat=&cap-comune="
+contract_type = "dual" # use: "gas" "dual" or "power"
 
 # get into the website
-browser.get(url)
+driver.get(url)
 
 # page1
 
 if contract_type == "dual": 
-    dual = browser.find_element_by_id("dual").click()
+    dual = driver.find_element(By.ID, "dual").click()
 elif contract_type == "gas":
-    gas_only = browser.find_element_by_id("gas").click()
+    gas_only = driver.find_element(By.ID, "gas").click()
 else:
-    power_only = browser.find_element_by_id("energiaElettrica").click()
+    power_only = driver.find_element(By.ID, "energiaElettrica").click()
 
-cap = browser.find_element_by_id("capComune")
+cap = driver.find_element(By.ID, "capComune")
 cap.send_keys(user_cap)
 time.sleep(0.5)
 cap.send_keys(Keys.DOWN, Keys.RETURN)
 
-pfix = browser.find_element_by_id("prezzoFisso").click()
+pfix = driver.find_element(By.ID, "prezzoFisso").click()
 
-casa = browser.find_element_by_id("casa").click()
+casa = driver.find_element(By.ID, "casa").click()
 
 if contract_type == "dual" or contract_type == "power":
-    residente = browser.find_element_by_id("residenteSI").click()
+    residente = driver.find_element(By.ID, "residenteSI").click()
 else:
     pass 
 
-avanti = browser.find_element_by_class_name("btn").click()
+avanti = driver.find_element(By.CLASS_NAME, "btn").click()
 
 # page2
 
 if contract_type == "dual" or contract_type == "power":
-    potenza =  Select(browser.find_element_by_id("scegliPotenza"))
+    potenza =  Select(driver.find_element(By.ID, "scegliPotenza"))
     potenza.select_by_index(2)
 
-    consumo_luce = browser.find_element_by_id("consumoSI").click()
+    consumo_luce = driver.find_element(By.ID, "consumoSI").click()
 
-    kwh = browser.find_element_by_id("consumoAnnuoSomma")
+    kwh = driver.find_element(By.ID, "consumoAnnuoSomma")
     kwh.send_keys(power)
     
     try:
-        avanti = browser.find_element_by_link_text("Avanti").click()
-    except Exception as e:
-        confronta = browser.find_element_by_name("confronta").click()
+        avanti = driver.find_element(By.LINK_TEXT, "Avanti").click()
+    except:
+        confronta = driver.find_element(By.NAME, "confronta").click()
 else:
     pass
 
 # page3
 
 if contract_type == "dual" or contract_type == "gas":
-    cottura = browser.find_element_by_xpath('//label[@for="cottura"]').click()
-    acqua = browser.find_element_by_xpath('//label[@for="acquaCalda"]').click()
-    riscaldamento = browser.find_element_by_xpath('//label[@for="riscaldamento"]').click()
+    cottura = driver.find_element(By.XPATH, '//label[@for="cottura"]').click()
+    acqua = driver.find_element(By.XPATH, '//label[@for="acquaCalda"]').click()
+    riscaldamento = driver.find_element(By.XPATH, '//label[@for="riscaldamento"]').click()
 
-    consumo_gas = browser.find_element_by_id("consumoGasSI").click()
+    consumo_gas = driver.find_element(By.ID, "consumoGasSI").click()
 
-    smc = browser.find_element_by_id("ConsumoAnnuoGas")
+    smc = driver.find_element(By.ID, "ConsumoAnnuoGas")
     smc.send_keys(gas)
 else:
     pass 
 
 try:
-    avanti = browser.find_element_by_link_text("Avanti").click()
-except Exception as e:
-    confronta = browser.find_element_by_name("confronta").click()
+    avanti = driver.find_element(By.LINK_TEXT, "Avanti").click()
+except:
+    confronta = driver.find_element(By.NAME, "confronta").click()
     
-    
-# printing out the results: 
-
-new_url = browser.page_source
+# printing out the results (only order of operators)
+new_url = driver.page_source
 soup = BS4(new_url, "lxml")
-competitors = soup.find_all("p", {"class": "nome_venditore"})
+competitors = soup.find_all("p", {"class": ["nome_venditore"]})
 
-# printing out the results: 
-
-new_url = browser.page_source
-soup = BS4(new_url, "lxml")
-competitors = soup.find_all("p", {"class": "nome_venditore"})
-
-for rank, comp in enumerate(competitors):
+for rank, comp, in enumerate(competitors):
     print (str(today)+ " " + f"{rank + 1}:" + comp.text)
+    
+# printing out the results (operators and annual cost of the energy supply)
+new_url = driver.page_source
+soup = BS4(new_url, "lxml")
+competitors = soup.find_all(class_= ["nome_venditore", "prezzoOffertaValore"])
+
+for rank, comp, in enumerate(competitors):
+    print (str(today)+ " " + f"{rank + 1}:" + comp.text)
+    
