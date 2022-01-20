@@ -9,3 +9,6 @@ If interested in it, I'll be happy to jump back on the task.
 
 Please be so kind to star or fork if you want to use it for personal use :)
 
+### Update 2022
+A colleague of mine asked about this script and asked for some more functionality (the option to download the annual cost of the energy supply as well).<br>
+I took the opportunity then to update the whole script up to Selenium 4.0 best practice and add that function.
